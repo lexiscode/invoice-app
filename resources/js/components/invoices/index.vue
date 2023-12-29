@@ -3,6 +3,7 @@
     import { onMounted, ref } from 'vue'
 
     let invoices = ref([])
+    let searchInvoice = ref([])
 
     onMounted(async () => {
         getInvoices()
@@ -11,6 +12,11 @@
     const getInvoices = async () => {
         let response = await axios.get('/api/invoices')
         // console.log('response', response)
+        invoices.value = response.data.invoices
+    }
+
+    const search = async () => {
+        let response = await axios.get('/api/search_invoice?s='+searchInvoice.value)
         invoices.value = response.data.invoices
     }
 
@@ -60,7 +66,8 @@
                 </div>
                 <div class="relative">
                     <i class="table--search--input--icon fas fa-search "></i>
-                    <input class="table--search--input" type="text" placeholder="Search invoice">
+                    <input class="table--search--input" type="text" placeholder="Search invoice"
+                    v-model="searchInvoice" @keyup="search()">
                 </div>
             </div>
 
@@ -91,10 +98,11 @@
             <div class="table--items" v-else>
                 <p>No invoice found.</p>
             </div>
-            
+
         </div>
 
     </div>
     </div>
 
 </template>
+
