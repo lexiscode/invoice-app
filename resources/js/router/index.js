@@ -10,7 +10,7 @@ const routes = [
         component: invoiceIndex,
     },
     {
-        path: "/invoice/new",
+        path: "/invoice/create",
         component: invoiceCreate,
     },
     {

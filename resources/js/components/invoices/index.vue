@@ -27,7 +27,7 @@
     const newInvoice = async () => {
         let form = await axios.get('/api/create')
         // console.log('form', form.data)
-        router.push('/invoice/new')
+        router.push('/invoice/create')
     }
 
 </script>
