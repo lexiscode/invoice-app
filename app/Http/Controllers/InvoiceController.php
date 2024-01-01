@@ -74,18 +74,6 @@ class InvoiceController extends Controller
     {
         $invoice_item = $request->input('invoice_item');
 
-        /*
-        $invoicedata['sub_total'] = $request->input('sub_total');
-        $invoicedata['total_amount'] = $request->input('total_amount');
-        $invoicedata['customer_id'] = $request->input('customer_id');
-        $invoicedata['number'] = $request->input('number');
-        $invoicedata['issue_date'] = $request->input('issue_date');
-        $invoicedata['due_date'] = $request->input('due_date');
-        $invoicedata['discount'] = $request->input('discount');
-        $invoicedata['reference'] = $request->input('reference');
-        $invoicedata['terms_and_conditions'] = $request->input('terms_and_conditions');
-        */
-
         $invoice = Invoice::create([
             'sub_total' => $request->sub_total,
             'total_amount' => $request->total_amount,
@@ -98,15 +86,7 @@ class InvoiceController extends Controller
             'terms_and_conditions' => $request->terms_and_conditions
         ]);
 
-        // $invoice = Invoice::create($invoicedata);
-
         foreach(json_decode($invoice_item) as $item){
-            /*
-            $itemdata['product_id'] = $item->id;
-            $itemdata['invoice_id'] = $invoice->id;
-            $itemdata['quantity'] = $item->quantity;
-            $itemdata['unit_price'] = $item->unit_price;
-            */
 
             InvoiceItem::create([
                 'product_id' => $item->id,
@@ -114,10 +94,20 @@ class InvoiceController extends Controller
                 'quantity' => $item->quantity,
                 'unit_price' => $item->unit_price
             ]);
-
-            //InvoiceItem::create($itemdata);
         }
     }
+
+
+    public function showInvoice($id)
+    {
+        // we fetch the customer details, their invoice items, and products
+        $invoice = Invoice::with(['customer', 'invoice_items.product'])->find($id);
+
+        return response()->json([
+            'invoice' => $invoice
+        ], 200);
+    }
+
 }
 
 
