@@ -17,10 +17,16 @@ Route::get('/invoices', [InvoiceController::class, 'index']);
 Route::get('/search_invoice', [InvoiceController::class, 'searchInvoice']);
 Route::get('/create', [InvoiceController::class, 'create']);
 
-
 Route::get('/customers', [CustomerController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
 
 Route::post('/add_invoice', [InvoiceController::class, 'addInvoice']);
 
 Route::get('/show/{id}', [InvoiceController::class, 'showInvoice']);
+Route::get('/edit/{id}', [InvoiceController::class, 'editInvoice']);
+
+Route::get('/delete_invoice_items/{id}', [InvoiceController::class, 'deleteInvoiceItems']);
+
+Route::post('/update_invoice/{id}', [InvoiceController::class, 'updateInvoice']);
+
+Route::get('/delete_invoice/{id}', [InvoiceController::class, 'deleteInvoice']);

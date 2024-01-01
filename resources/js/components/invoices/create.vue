@@ -14,7 +14,6 @@
 
     const showModal = ref(false)
     const hideModal = ref(true)
-
     let listproducts = ref([])
 
 
@@ -45,15 +44,15 @@
     }
 
     const addCart = (item) => {
-    const itemcart = {
-        id : item.id,
-        item_code : item.item_code,
-        description : item.description,
-        unit_price : item.unit_price,
-        quantity : item.quantity,
-    }
-    listCart.value.push(itemcart)
-    closeModal()
+        const itemcart = {
+            id : item.id,
+            item_code : item.item_code,
+            description : item.description,
+            unit_price : item.unit_price,
+            quantity : item.quantity,
+        }
+        listCart.value.push(itemcart)
+        closeModal()
     }
 
     const getProducts = async () => {
@@ -109,7 +108,6 @@
             axios.post('/api/add_invoice', formData)
             listCart.value = []
             router.push('/')
-
         }
     }
 

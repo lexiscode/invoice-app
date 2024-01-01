@@ -1,31 +1,40 @@
 <script setup>
 
-import { onMounted, ref } from "vue"
-import router from "../../router";
+    import { onMounted, ref } from "vue"
+    import router from "../../router";
 
-let form = ref({ id:"" })
+    let form = ref({ id:"" })
 
-const props = defineProps({
-    id:{
-        type: String,
-        default: ""
+    const props = defineProps({
+        id:{
+            type: String,
+            default: ""
+        }
+    })
+
+    onMounted(async () => {
+        getInvoice()
+    })
+
+    const getInvoice = async () => {
+        let response = await axios.get(`/api/show/${props.id}`)
+        // console.log('form', response.data.invoice)
+        form.value = response.data.invoice
     }
-})
 
-onMounted(async () => {
-    getInvoice()
-})
+    const print = () => {
+        window.print()
+        router.push('/').catch(() => {})
+    }
 
-const getInvoice = async () => {
-    let response = await axios.get(`/api/show/${props.id}`)
-    // console.log('form', response.data.invoice)
-    form.value = response.data.invoice
-}
+    const onEdit = (id) => {
+        router.push('/invoice/edit/' + id)
+    }
 
-const print = () => {
-    window.print()
-    router.push('/').catch(() => {})
-}
+    const deleteInvoice = (id) => {
+        axios.get('/api/delete_invoice/'+id)
+        router.push('/')
+    }
 
 </script>
 
@@ -48,28 +57,22 @@ const print = () => {
                 <div>
                     <ul  class="card__header-list">
                         <li>
-                            <!-- Select Btn Option -->
                             <button class="selectBtnFlat" @click="print()">
                                 <i class="fas fa-print"></i>
                                 Print
                             </button>
-                            <!-- End Select Btn Option -->
                         </li>
                         <li>
-                            <!-- Select Btn Option -->
-                            <button class="selectBtnFlat">
+                            <button class="selectBtnFlat" @click="onEdit(form.id)">
                                 <i class=" fas fa-reply"></i>
                                 Edit
                             </button>
-                            <!-- End Select Btn Option -->
                         </li>
                         <li>
-                            <!-- Select Btn Option -->
-                            <button class="selectBtnFlat ">
+                            <button class="selectBtnFlat" @click="deleteInvoice(form.id)">
                                 <i class=" fas fa-pencil-alt"></i>
                                 Delete
                             </button>
-                            <!-- End Select Btn Option -->
                         </li>
 
                     </ul>
